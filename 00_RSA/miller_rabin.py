@@ -53,6 +53,15 @@ def is_prim_millerabin(n, k):
     return "probably prime"
 
 
+def generate_prime(bits):
+    while True:
+        max_n = (1 << bits) - 1
+        number = random.SystemRandom().randint(max_n // 2, max_n)
+        number |= 1
+        if is_prime(number):
+            return number
+
+
 if __name__ == '__main__':
-    for i in range(4, 1000):
-        print(f'{i} -> {is_prime(i)}')
+    for i in range(10):
+        print(generate_prime(256))
