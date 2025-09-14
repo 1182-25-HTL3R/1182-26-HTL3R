@@ -1,9 +1,24 @@
 __author__ = 'Fabian Ha'
 
+import doctest
 import random
 
 
-def is_prime(number):
+def is_prime(number: int) -> bool:
+    """
+    Checks if a number is prime
+    :param number: Integer number
+    :return: True if prime, False otherwise
+
+    >>> is_prime(1)
+    False
+    >>> is_prime(461)
+    True
+    >>> is_prime(64433)
+    True
+    >>> is_prime(64435)
+    False
+    """
     if number < 2:
         return False
 
@@ -25,7 +40,20 @@ def is_prime(number):
     return True if is_prim_millerabin(number, 20) == 'probably prime' else False
 
 
-def is_prim_millerabin(n, k):
+def is_prim_millerabin(n: int, k: int) -> str:
+    """
+    Checks if a number is probably prime with the miller rabin algo
+    :param n: Integer number
+    :param k: Integer amount of rounds
+    :return: 'probably prime' if probably prime, 'composite' otherwise
+
+    >>> is_prim_millerabin(99991, 20)
+    'probably prime'
+    >>> is_prim_millerabin(84203958029485945, 20)
+    'composite'
+    >>> is_prim_millerabin(87959, 20)
+    'probably prime'
+    """
     if n <= 3:
         raise ValueError("n must be greater than 3")
 
@@ -53,7 +81,12 @@ def is_prim_millerabin(n, k):
     return "probably prime"
 
 
-def generate_prime(bits):
+def generate_prime(bits: int) -> int:
+    """
+    Generates a prime number
+    :param bits: Maximum bits to generate a number
+    :return: Generated prime number
+    """
     while True:
         max_n = (1 << bits) - 1
         number = random.SystemRandom().randint(max_n // 2, max_n)
@@ -63,6 +96,8 @@ def generate_prime(bits):
 
 
 if __name__ == '__main__':
+    doctest.testmod(verbose=True)
+
     # Test für generate_prime(bits)
     for i in range(10):
         print(generate_prime(256))
