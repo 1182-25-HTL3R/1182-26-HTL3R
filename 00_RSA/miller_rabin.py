@@ -63,5 +63,56 @@ def generate_prime(bits):
 
 
 if __name__ == '__main__':
+    # Test für generate_prime(bits)
     for i in range(10):
         print(generate_prime(256))
+
+    # Aufgabe/Test - bestimme die erste Primzahl > 2^512
+    # Lösung: 13407807929942597099574024998205846127479365820592393377723561443721764030073546976801874298166903427690031858186486050853753882811946569946433649006084171
+    n = (1 << 512) + 1
+    while True:
+        if is_prime(n):
+            print(f'\nNächste Primzahl > 2^512: {n}')
+            break
+        n += 2
+
+    print()
+
+    # Magic: Ist 24566544301293569 prim?
+    # Lösung: True
+    magic_number = 24566544301293569
+    print(f'Ist 24566544301293569 prim?: {is_prime(magic_number)}\n')
+
+    # Botschaft?
+    # Lösung: HTL als 1sen
+    # 101011101000
+    # 111001001000
+    # 101001001110
+    # 000000000000
+    # 0000001
+    print('Magische Botschaft:')
+    binary = bin(magic_number)
+    binary = binary[2:]
+    for i in range(len(binary) // 12):
+        print(binary[i * 12:(i + 1) * 12])
+    print(binary[(len(binary) // 12) * 12:])
+    print()
+
+    # Nächst höhere Zahl immer noch diese Botschaft?
+    # Lösung: Ja
+    # 101011101000
+    # 111001001000
+    # 101001001110
+    # 000000000000
+    # 0010011
+    n = magic_number + 2
+    while True:
+        if is_prime(n):
+            print('Magische Botschaft 2:')
+            binary = bin(n)
+            binary = binary[2:]
+            for i in range(len(binary) // 12):
+                print(binary[i * 12:(i + 1) * 12])
+            print(binary[(len(binary) // 12) * 12:])
+            break
+        n += 2
