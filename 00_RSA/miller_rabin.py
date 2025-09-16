@@ -33,9 +33,7 @@ def is_prime(number: int) -> bool:
                             461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523,
                             541]
 
-    for prime in first_hundred_primes:
-        if number % prime == 0 and number / prime == 1:
-            return True
+    if number in first_hundred_primes: return True
 
     return True if is_prim_millerabin(number, 20) == 'probably prime' else False
 
