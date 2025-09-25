@@ -1,10 +1,16 @@
 import math
 import random
+from typing import Tuple, Generator
 
 from miller_rabin import generate_prime
 
 
-def generate_keys(number_of_bits):
+def generate_keys(number_of_bits: int) -> Tuple[Tuple[int, int, int], Tuple[int, int, int]]:
+    """
+    Generates public and private keys
+    :param number_of_bits: blocksize in bits
+    :return: public and private keys
+    """
     p = generate_prime(number_of_bits // 2)
     q = generate_prime(number_of_bits // 2)
 
@@ -23,7 +29,13 @@ def generate_keys(number_of_bits):
     return (e, n, e.bit_length()), (d, n, d.bit_length())
 
 
-def file2ints(file_path, bytenumber):
+def file2ints(file_path: str, bytenumber: int) -> Generator[int]:
+    """
+    converts a file into a list of byteblocks as integers
+    :param file_path:
+    :param bytenumber:
+    :return: generator of byteblocks as integers from message
+    """
     with open(file_path, "rb") as file:
         while block := file.read(bytenumber):  # walrus operator is cool
             yield int.from_bytes(block)
