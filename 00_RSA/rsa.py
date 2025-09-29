@@ -16,9 +16,11 @@ def generate_keys(number_of_bits: int) -> Tuple[Tuple[int, int, int], Tuple[int,
     """
     p = generate_prime(number_of_bits // 2)
     q = generate_prime(number_of_bits // 2)
-
     n = p * q
-    while n.bit_length() > number_of_bits:
+
+    while n.bit_length() > number_of_bits or p == q:  # Schlüsselänge muss länger sein als Blocklänge und private und public key unterschiedlich
+        p = generate_prime(number_of_bits // 2)
+        q = generate_prime(number_of_bits // 2)
         n = p * q
 
     phi = (p - 1) * (q - 1)
@@ -27,16 +29,16 @@ def generate_keys(number_of_bits: int) -> Tuple[Tuple[int, int, int], Tuple[int,
     while math.gcd(e, phi) != 1:
         e = random.SystemRandom().getrandbits(256)
 
-    d = pow(e, -1, (p - 1) * (q - 1))
+    d = pow(e, -1, phi)
 
-    return (e, n, e.bit_length()), (d, n, d.bit_length())
+    return (e, n, number_of_bits), (d, n, number_of_bits)
 
 
 def file2ints(file_path: str, bytenumber: int) -> Generator[int]:
     """
     converts a file into a list of byteblocks as integers
-    :param file_path:
-    :param bytenumber:
+    :param file_path: path to file
+    :param bytenumber: number of bytes to read at once
     :return: generator of byteblocks as integers from message
     """
     with open(file_path, "rb") as file:
