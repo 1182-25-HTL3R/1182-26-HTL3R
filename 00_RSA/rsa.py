@@ -1,3 +1,5 @@
+__author__ = "Fabian Ha"
+
 import math
 import random
 import logging
@@ -45,6 +47,7 @@ def file2ints(file_path: str, bytenumber: int) -> Generator[int]:
         while block := file.read(bytenumber):  # walrus operator is cool
             yield int.from_bytes(block)
 
+
 def ints2file(file_path: str, ints: List[int], bytenumber: int) -> None:
     """
     writes a list of integers to a file
@@ -56,6 +59,7 @@ def ints2file(file_path: str, ints: List[int], bytenumber: int) -> None:
     with open(file_path, "wb") as file:
         for num in ints:
             file.write(num.to_bytes(bytenumber, "big"))
+
 
 def save_keys(keys: Tuple[Tuple[int, int, int], Tuple[int, int, int]]) -> None:
     """
@@ -128,20 +132,11 @@ def decrypt_file(file_path: str) -> None:
 
 
 if __name__ == "__main__":
-    # public_key, private_key = generate_keys(128)
-    # for x in [1, 15, 289, 1044]:
-    #     c = pow(x, public_key[0], public_key[1])
-    #     y = pow(c, private_key[0], private_key[1])
-    # assert x == y
-    #
-    # ints = file2ints("message.txt", 8)
-    # for i in ints: print(i)
-
     import argparse
 
     parser = argparse.ArgumentParser(description="Fabians RSA Verschlüsselungs Tool")
     parser.add_argument("-l", "--loglevel", help="Set the logging level", default="WARNING",
-                        choices=["DEBUG", "INFO", "WARNING", "ERROR"], required=False)
+                        choices=["INFO", "ERROR"], required=False)
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-k", "--keygen", metavar="KEYGEN", help="generate new keys with the given length", type=int)

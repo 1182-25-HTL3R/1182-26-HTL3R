@@ -1,3 +1,5 @@
+__author__ = "Fabian Ha"
+
 import doctest
 import time
 
