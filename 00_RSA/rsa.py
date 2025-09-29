@@ -68,7 +68,27 @@ def save_keys(keys: Tuple[Tuple[int, int, int], Tuple[int, int, int]]) -> None:
 
 
 def encrypt_file(file_path: str) -> None:
-    return
+    """
+    Encrypts a file
+    :param file_path: path to file
+    :return: None
+    """
+    try:
+        with open("public_key.txt", "r") as f:
+            e = int(f.readline().strip())
+            n = int(f.readline().strip())
+    except FileNotFoundError:
+        logger.error("File public_key.txt not found")
+        raise FileNotFoundError("File public_key.txt not found")
+
+    int_blocks = file2ints(file_path, (n.bit_length() - 1) // 8)
+
+    encrypted_blocks = [pow(block, e, n) for block in int_blocks]
+
+    logger.info("Message encrypted")
+
+    with open("encrypted_message.txt", "w") as f:
+        f.write("\n".join(map(str, encrypted_blocks)))
 
 
 def decrypt_file(file_path: str) -> None:
