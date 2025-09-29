@@ -1,7 +1,7 @@
 import math
 import random
 import logging
-from typing import Tuple, Generator
+from typing import Tuple, Generator, List
 
 from miller_rabin import generate_prime
 
@@ -45,6 +45,17 @@ def file2ints(file_path: str, bytenumber: int) -> Generator[int]:
         while block := file.read(bytenumber):  # walrus operator is cool
             yield int.from_bytes(block)
 
+def ints2file(file_path: str, ints: List[int], bytenumber: int) -> None:
+    """
+    writes a list of integers to a file
+    :param file_path: path to file
+    :param ints: List of integers to write
+    :param bytenumber: number of bytes to write at once
+    :return: None
+    """
+    with open(file_path, "wb") as file:
+        for num in ints:
+            file.write(num.to_bytes(bytenumber, "big"))
 
 def save_keys(keys: Tuple[Tuple[int, int, int], Tuple[int, int, int]]) -> None:
     """
@@ -69,7 +80,7 @@ def save_keys(keys: Tuple[Tuple[int, int, int], Tuple[int, int, int]]) -> None:
 
 def encrypt_file(file_path: str) -> None:
     """
-    Encrypts a file
+    encrypts a file
     :param file_path: path to file
     :return: None
     """
@@ -92,7 +103,28 @@ def encrypt_file(file_path: str) -> None:
 
 
 def decrypt_file(file_path: str) -> None:
-    return
+    """
+    decrypts a file
+    :param file_path: path to file
+    :return: None
+    """
+    try:
+        with open("private_key.txt", "r") as f:
+            d = int(f.readline().strip())
+            n = int(f.readline().strip())
+    except FileNotFoundError:
+        logger.error("File private_key.txt not found")
+        raise FileNotFoundError("File private_key.txt not found")
+
+    encrypted_blocks = []
+    with open(file_path, "r") as f:
+        encrypted_blocks = [int(line.strip()) for line in f.readlines() if line.strip()]
+
+    decrypted_ints = []
+    for block in encrypted_blocks:
+        decrypted_ints.append(pow(block, d, n))
+
+    ints2file("decrypted_message.txt", decrypted_ints, (n.bit_length() - 1) // 8)
 
 
 if __name__ == "__main__":
