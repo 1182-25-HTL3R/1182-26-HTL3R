@@ -67,6 +67,14 @@ def save_keys(keys: Tuple[Tuple[int, int, int], Tuple[int, int, int]]) -> None:
     logger.info("Private key saved to private_key.txt")
 
 
+def encrypt_file(file_path: str) -> None:
+    return
+
+
+def decrypt_file(file_path: str) -> None:
+    return
+
+
 if __name__ == "__main__":
     # public_key, private_key = generate_keys(128)
     # for x in [1, 15, 289, 1044]:
@@ -98,3 +106,13 @@ if __name__ == "__main__":
         generated_keys = generate_keys(args.keygen)
         save_keys(generated_keys)
         logger.info("Done generating keys")
+
+    if args.encrypt:
+        logger.info(f"Encrypting file: {args.encrypt}")
+        encrypt_file(args.encrypt)
+        logger.info("Done encrypting file. Output written to encrypted_message.txt")
+
+    if args.decrypt:
+        logger.info(f"Decrypting file: {args.decrypt}")
+        decrypt_file(args.decrypt)
+        logger.info("Done decrypting file. Output written to decrypted_message.txt")
