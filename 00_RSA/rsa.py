@@ -58,7 +58,7 @@ def ints2file(file_path: str, ints: List[int], bytenumber: int) -> None:
     """
     with open(file_path, "wb") as file:
         for num in ints:
-            file.write(num.to_bytes(bytenumber, "big"))
+            file.write(num.to_bytes(bytenumber, "big").replace(b"\x00", b""))
 
 
 def save_keys(keys: Tuple[Tuple[int, int, int], Tuple[int, int, int]]) -> None:
