@@ -5,6 +5,15 @@ from typing import Tuple
 
 
 def fermats_factorization_method(n: int, max: int = None) -> Tuple[int, int, int]:
+    """
+    Implementation of the Fermats factorization algorithm.
+    :param n: Number to find the Fermats factor.
+    :param max: Max trys.
+    :return: Factors and attempts to find the Fermats factor.
+
+    >>> fermats_factorization_method(1000001000000090000037000001961, 125)
+    (1000000000000037, 1000001000000053, 125)
+    """
     att = 1
     a = math.isqrt(n)
     while a * a < n:
@@ -26,6 +35,9 @@ def fermats_factorization_method(n: int, max: int = None) -> Tuple[int, int, int
 
 
 if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod()
     import argparse
 
     parser = argparse.ArgumentParser(description="Fabians RSA-Attack")
@@ -35,8 +47,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     p, q, attempts = fermats_factorization_method(args.modul, args.m)
-    print(f"Es braucht {attempts} Versuche, um die Faktoren von {args.modul} zu finden:")
-    print("p = ", p)
-    print("q = ", q)
 
+    if args.verbose:
+        print(f"Es braucht {attempts} Versuche, um die Faktoren von {args.modul} zu finden:")
+        print("p = ", p)
+        print("q = ", q)
+    else:
+        print("p = ", p)
+        print("q = ", q)
+        print("attempts = ", attempts)
     # p und q sollten weit genug voneinander entfernt sein, weil man sonst wenige Versuche braucht um auf die zweite Primzahl zu kommen
