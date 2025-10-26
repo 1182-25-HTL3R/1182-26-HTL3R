@@ -11,7 +11,6 @@ S = [ math.sin(x) for x in X ]
 
 plt.plot(X, C)
 plt.plot(X, S)
-plt.savefig("plot1_ha.png", dpi=72)
 
 plt.figure(figsize=(10,6), dpi=80)
 plt.plot(X, C, color="green", linewidth=2.5, linestyle="--", label="cosine")
@@ -44,5 +43,7 @@ for label in ax.get_xticklabels() + ax.get_yticklabels():
     label.set_bbox(dict(facecolor='white', edgecolor='None', alpha=0.65 ))
 
 ax.set_axisbelow(True)
+
+plt.savefig("plot1_ha.png", dpi=72)
 
 plt.show()
