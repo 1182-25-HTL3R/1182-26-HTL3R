@@ -1,6 +1,8 @@
 __author__ = "Fabian Ha"
 
 import subprocess
+from matplotlib import pyplot as plt
+from dateutil import parser
 
 subpro = subprocess.Popen(
     ['/usr/bin/git', 'log', '--format=%an;%ad', '--author', 'Fabian Ha'],
@@ -13,7 +15,38 @@ if stderr:
     exit()
 
 lines = stdout.decode("utf-8").splitlines()
-commits = []
+dates = []
 for line in lines:
-    print(line)
-    commits.append(line)
+    date = line.split(";")[1]
+    dt = parser.parse(date)
+    dates.append(dt)
+
+counter = dict()
+for date in dates:
+    if (date.hour, date.strftime("%a")) not in counter:
+        counter[(date.hour, date.strftime("%a"))] = 1
+        continue
+
+    counter[(date.hour, date.strftime("%a"))] += 1
+
+X = []
+Y = []
+sizes = []
+wochentage = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+for (hour, day), count in counter.items():
+    X.append(hour)
+    Y.append(wochentage.index(day))
+    sizes.append(count * 100)
+
+plt.figure(figsize=(6, 4), dpi=80)
+plt.title(f"Fabian Ha: {len(dates)}")
+plt.scatter(X, Y, s=sizes, alpha=0.7)
+plt.xticks(range(0, 24, 2))
+plt.yticks(range(len(wochentage)),
+           ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"])
+plt.ylabel("Wochentag")
+plt.xlabel("Uhrzeit")
+plt.grid(True, linestyle="-", alpha=0.5)
+plt.xlim(-1, 24)
+plt.show()
