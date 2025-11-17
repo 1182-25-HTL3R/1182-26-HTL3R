@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     maze1 = load_maze("l1.txt")
     print("Labyrinth 1")
-    time_function(tiefensuche(maze1, start, list()), False)
+    time_function(tiefensuche(maze1, start, list()), True)
 
     print("\nLabyrinth 2")
     maze2 = load_maze("l2.txt")
