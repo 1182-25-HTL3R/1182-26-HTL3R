@@ -10,7 +10,9 @@ def load_maze(s):
             maze.append(list(line.strip()))
     return maze
 
+
 directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
 
 def tiefensuche(maze, position: tuple, path: list, visited: set = None):
     if visited is None:
@@ -35,6 +37,7 @@ def tiefensuche(maze, position: tuple, path: list, visited: set = None):
             return out
 
     return None
+
 
 from timer import time_function
 
